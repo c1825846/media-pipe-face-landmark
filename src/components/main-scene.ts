@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import CannonDebugger from 'cannon-es-debugger'
 
 import { Game, FlyGame } from './games'
 
@@ -8,12 +9,15 @@ export class MainScene extends THREE.Scene {
     new THREE.BoxGeometry(0.2, 0.2, 0.2),
     new THREE.MeshStandardMaterial({
       color: 'white',
+      transparent: true,
+      opacity: 0.2,
     })
   )
   private eulerXOffset = 0
   private logDirectionBlock = document.querySelector('#direction') as HTMLDivElement
 
   private game: Game = new FlyGame()
+  private cannonDebugger: ReturnType<typeof CannonDebugger>
 
   constructor() {
     super()
@@ -22,6 +26,10 @@ export class MainScene extends THREE.Scene {
     this.add(this.cube)
 
     this.add(this.game)
+
+    if (true) {
+      this.cannonDebugger = CannonDebugger(this, this.game.world)
+    }
 
     document.querySelector('#recalibrate')?.addEventListener('click', () => {
       this.eulerXOffset = this.faceObject3D.rotation.x
@@ -45,12 +53,12 @@ export class MainScene extends THREE.Scene {
     const threshold = 0.16
     if (eulerX > threshold) {
       this.logDirectionBlock.innerText = 'down'
-      // this.game.onDownPressed()
+      this.game.onDownPressed()
     }
 
     if (eulerX < -threshold) {
       this.logDirectionBlock.innerText = 'up'
-      // this.game.onUpPressed()
+      this.game.onUpPressed()
     }
 
     if (eulerX > -threshold && eulerX < threshold) {
@@ -60,5 +68,8 @@ export class MainScene extends THREE.Scene {
 
   async load() {}
 
-  update(delta: number) {}
+  update(delta: number) {
+    this.game.update(delta)
+    this.cannonDebugger?.update()
+  }
 }
