@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import CannonDebugger from 'cannon-es-debugger'
 
-import { UserInputState } from 'user-input/user-input'
+import { UserInputState } from 'modules/user-input/user-input'
 
 import { Game, FlyGame } from './games'
 

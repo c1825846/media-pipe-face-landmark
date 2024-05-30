@@ -12,13 +12,10 @@ export class FaceRecognizer extends EventEmitter<FaceRecognizerEvents> {
   private lastVideoTime = -1
   private faceLandmarkerResult: FaceLandmarkerResult
   private isVideoLoaded = false
+  private isFaceLandmarkerLoaded = false
 
-  constructor(private readonly video: HTMLVideoElement) {
+  constructor(private readonly video: HTMLVideoElement, private readonly videoStream: MediaStream) {
     super()
-
-    if (!navigator?.mediaDevices?.getUserMedia) {
-      throw new Error('getUserMedia() is not supported by your browser')
-    }
 
     window.addEventListener('resize', () => this.onResize())
 
@@ -33,7 +30,7 @@ export class FaceRecognizer extends EventEmitter<FaceRecognizerEvents> {
   }
 
   update() {
-    if (!this.isVideoLoaded) {
+    if (!this.isVideoLoaded || !this.isFaceLandmarkerLoaded) {
       return
     }
 
@@ -44,6 +41,7 @@ export class FaceRecognizer extends EventEmitter<FaceRecognizerEvents> {
     }
 
     this.emit('update', this.faceLandmarkerResult)
+
     return this.faceLandmarkerResult
   }
 
@@ -64,14 +62,12 @@ export class FaceRecognizer extends EventEmitter<FaceRecognizerEvents> {
       outputFacialTransformationMatrixes: true,
       numFaces: 1,
     })
+
+    this.isFaceLandmarkerLoaded = true
   }
 
   private async initVideoStream() {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: false,
-    })
-    this.video.srcObject = stream
+    this.video.srcObject = this.videoStream
     this.video.addEventListener('playing', () => this.onResize())
     this.video.play()
     this.video.addEventListener('loadeddata', () => {

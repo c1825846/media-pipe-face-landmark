@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
 
-import { PhysicalObject } from 'components/physical-object'
-import { obstructionMaterial } from 'components/materials'
-import { CollisionFilterGroup } from 'components/collision-filter-group'
+import { PhysicalObject } from 'game/components/physical-object'
+import { obstructionMaterial } from 'game/components/materials'
+import { CollisionFilterGroup } from 'game/components/collision-filter-group'
 
 import { syncMesh } from 'utils/cannon'
 

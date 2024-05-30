@@ -1,1 +1,1 @@
-export { ThreeContext } from './three-context'
+export { type ThreeContext, ThreeContextFabric } from './three-context'

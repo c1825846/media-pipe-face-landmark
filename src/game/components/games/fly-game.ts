@@ -3,10 +3,10 @@ import * as CANNON from 'cannon-es'
 
 import { Game } from './game'
 
-import { PhysicalObject } from 'components/physical-object'
-import { Obstruction } from 'components/obstruction'
-import { Character } from 'components/character/character'
-import { characterObstructionContact } from 'components/materials'
+import { PhysicalObject } from 'game/components/physical-object'
+import { Obstruction } from 'game/components/obstruction'
+import { Character } from 'game/components/character/character'
+import { characterObstructionContact } from 'game/components/materials'
 
 const enum ObstructionPosition {
   Top = 'top',

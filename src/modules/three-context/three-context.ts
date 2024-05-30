@@ -1,7 +1,15 @@
 import * as THREE from 'three'
 
-export class ThreeContext {
-  private static instance: ThreeContext
+export type ThreeContext = {
+  renderer: THREE.WebGLRenderer
+  camera: THREE.PerspectiveCamera
+  scene: THREE.Scene
+  canvas: HTMLCanvasElement
+  render: VoidFunction
+}
+
+export class ThreeContextFabric {
+  private static instance: ThreeContextFabric
   private renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true,
@@ -20,17 +28,17 @@ export class ThreeContext {
     this.onResize()
   }
 
-  static getContext() {
-    if (!ThreeContext.instance) {
-      ThreeContext.instance = new ThreeContext()
+  static getContext(): ThreeContext {
+    if (!ThreeContextFabric.instance) {
+      ThreeContextFabric.instance = new ThreeContextFabric()
     }
 
     return {
-      renderer: ThreeContext.instance.renderer,
-      camera: ThreeContext.instance.camera,
-      scene: ThreeContext.instance.scene,
-      canvas: ThreeContext.instance.renderer.domElement,
-      render: () => ThreeContext.instance.render(),
+      renderer: ThreeContextFabric.instance.renderer,
+      camera: ThreeContextFabric.instance.camera,
+      scene: ThreeContextFabric.instance.scene,
+      canvas: ThreeContextFabric.instance.renderer.domElement,
+      render: () => ThreeContextFabric.instance.render(),
     }
   }
 
