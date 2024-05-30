@@ -1,7 +1,7 @@
 import { FaceLandmarker, FilesetResolver, FaceLandmarkerResult } from '@mediapipe/tasks-vision'
 import { EventEmitter } from 'eventemitter3'
 
-import modelAssetPath from 'assets/face_landmarker.task?url'
+import modelAssetPath from './face-landmarker.task?url'
 
 type FaceRecognizerEvents = {
   update: (faceLandmarkerResult: FaceLandmarkerResult) => void

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { FaceRecognizer } from 'face-recognizer'
+import { FaceRecognizer } from 'modules/face-recognizer'
 import { UserInput, UserInputState } from 'user-input/user-input'
 import { FaceUserInput } from 'user-input/face-user-input'
 import { KeyboardUserInput } from 'user-input/keyboard-user-input'

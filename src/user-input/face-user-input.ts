@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { FaceLandmarkerResult } from '@mediapipe/tasks-vision'
 
-import { FaceRecognizer } from 'face-recognizer'
+import { FaceRecognizer } from 'modules/face-recognizer'
 import { decomposeMatrix } from 'utils/decompose-matrix'
 
 import { UserInput, UserInputState } from './user-input'
