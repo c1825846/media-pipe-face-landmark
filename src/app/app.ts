@@ -1,6 +1,6 @@
-import * as THREE from 'three'
-
 import { FaceRecognizer } from 'modules/face-recognizer'
+import { ThreeContext } from 'modules/three-context'
+import { Ticker } from 'modules/ticker'
 import { UserInput, UserInputState } from 'user-input/user-input'
 import { FaceUserInput } from 'user-input/face-user-input'
 import { KeyboardUserInput } from 'user-input/keyboard-user-input'
@@ -9,56 +9,38 @@ import { MainScene } from 'components/main-scene'
 
 const video = document.querySelector('#video') as HTMLVideoElement
 export class App {
-  private userInput: UserInput
+  private threeContext = ThreeContext.getContext()
   private faceRecognizer = new FaceRecognizer(video)
-  private renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    antialias: true,
-  })
-  private camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100)
-  private clock = new THREE.Clock()
-  private scene = new MainScene()
+  private ticker: Ticker
+  private userInput: UserInput
+  private mainScene = new MainScene()
   private isLoaded = false
 
   constructor(container: Element) {
-    this.renderer.setPixelRatio(window.devicePixelRatio)
-    container.appendChild(this.renderer.domElement)
-    this.scene.add(this.camera)
-    this.camera.position.set(0, 0, 2)
+    container.appendChild(this.threeContext.canvas)
+
+    this.threeContext.camera.position.set(0, 0, 2)
+    this.threeContext.scene.add(this.mainScene)
+
+    this.ticker = new Ticker(this.threeContext.renderer)
+    this.ticker.addListener('tick', ({ delta }) => this.onTick(delta))
 
     this.userInput = new FaceUserInput(this.faceRecognizer)
-
-    window.addEventListener('resize', () => {
-      this.onResize()
-    })
-
-    this.onResize()
   }
 
-  private onResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight
-    this.camera.updateProjectionMatrix()
-
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-  }
-
-  private update(delta: number) {
+  private onTick(delta: number) {
     this.faceRecognizer.update()
-    this.scene.setUserInputState(this.userInput.state)
-    this.scene.update(delta)
+    this.mainScene.setUserInputState(this.userInput.state)
+    this.mainScene.update(delta)
+    this.threeContext.render()
   }
 
   async run() {
     await Promise.all([
-      this.scene.load(), //
+      this.mainScene.load(), //
       this.faceRecognizer.init(),
     ])
 
     this.isLoaded = true
-    this.renderer.setAnimationLoop(() => {
-      const clockDelta = this.clock.getDelta()
-      this.update(clockDelta)
-      this.renderer.render(this.scene, this.camera)
-    })
   }
 }

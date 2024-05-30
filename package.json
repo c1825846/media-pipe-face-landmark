@@ -18,7 +18,8 @@
     "ecsy": "^0.4.2",
     "eventemitter3": "^5.0.1",
     "three": "^0.162.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "xstate": "^5.13.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.25",
