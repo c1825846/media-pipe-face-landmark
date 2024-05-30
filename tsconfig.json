@@ -19,7 +19,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "strictPropertyInitialization": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "experimentalDecorators": true
   },
   "include": ["src"]
 }

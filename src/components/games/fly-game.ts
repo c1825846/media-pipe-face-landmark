@@ -18,43 +18,43 @@ const obstructionsConfig = {
   obstructions: [
     {
       position: ObstructionPosition.Top,
-      height: 0.5,
+      height: 1,
       distance: 1,
     },
     {
       position: ObstructionPosition.Bottom,
-      height: 0.7,
-      distance: 1.5,
-    },
-    {
-      position: ObstructionPosition.Top,
-      height: 0.6,
+      height: 1,
       distance: 2,
     },
     {
-      position: ObstructionPosition.Bottom,
-      height: 0.7,
-      distance: 2.5,
-    },
-    {
       position: ObstructionPosition.Top,
-      height: 0.5,
+      height: 0.8,
       distance: 3,
     },
     {
       position: ObstructionPosition.Bottom,
-      height: 0.7,
-      distance: 3.5,
+      height: 0.9,
+      distance: 4,
     },
     {
       position: ObstructionPosition.Top,
-      height: 0.6,
-      distance: 4,
+      height: 0.7,
+      distance: 5,
     },
     {
       position: ObstructionPosition.Bottom,
       height: 0.9,
-      distance: 4.5,
+      distance: 6,
+    },
+    {
+      position: ObstructionPosition.Top,
+      height: 0.8,
+      distance: 7,
+    },
+    {
+      position: ObstructionPosition.Bottom,
+      height: 1.1,
+      distance: 8,
     },
   ],
 }
@@ -78,7 +78,7 @@ export class FlyGame extends Game {
     this.floor.setPosition(new CANNON.Vec3(0, -1, 0))
 
     obstructionsConfig.obstructions.forEach(config => {
-      const obstruction = new Obstruction({ size: new CANNON.Vec3(0.1, config.height, 0.1) })
+      const obstruction = new Obstruction({ size: new CANNON.Vec3(0.3, config.height, 0.1) })
       const obstructionPositionY =
         (1 - config.height / 2 - 0.05) * (config.position === ObstructionPosition.Top ? 1 : -1)
       obstruction.setPosition(new CANNON.Vec3(-config.distance, obstructionPositionY, 0))
@@ -94,7 +94,7 @@ export class FlyGame extends Game {
         }
       })
 
-      if(isCollideObstruction) {
+      if (isCollideObstruction) {
         this.character.reset()
       }
     })

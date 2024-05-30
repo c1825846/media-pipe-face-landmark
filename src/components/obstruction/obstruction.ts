@@ -3,6 +3,7 @@ import * as CANNON from 'cannon-es'
 
 import { PhysicalObject } from 'components/physical-object'
 import { obstructionMaterial } from 'components/materials'
+import { CollisionFilterGroup } from 'components/collision-filter-group'
 
 import { syncMesh } from 'utils/cannon'
 
@@ -15,6 +16,7 @@ export class Obstruction extends PhysicalObject {
     type: CANNON.BODY_TYPES.STATIC,
     mass: 0,
     material: obstructionMaterial,
+    collisionFilterGroup: CollisionFilterGroup.OBSTRUCTION,
   })
   group = new THREE.Group()
   isObstruction = true
@@ -33,11 +35,20 @@ export class Obstruction extends PhysicalObject {
     )
   }
 
-  update() {
-    if(this.body.position.x  > 2) {
-      this.body.position.x = -2
+  private moveForward() {
+    if (this.body.position.x > 4) {
+      this.body.position.x = -4
     }
     this.body.position.x += 0.004
     syncMesh(this.group, this.body)
+  }
+
+  private moveBackward() {
+    this.body.position.x -= 0.004
+    syncMesh(this.group, this.body)
+  }
+
+  update() {
+    this.moveForward()
   }
 }

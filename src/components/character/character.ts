@@ -3,6 +3,7 @@ import * as CANNON from 'cannon-es'
 
 import { PhysicalObject } from 'components/physical-object'
 import { characterMaterial } from 'components/materials'
+import { CollisionFilterGroup } from 'components/collision-filter-group'
 
 import { syncMesh, resetBody } from 'utils/cannon'
 
@@ -14,6 +15,7 @@ export class Character extends PhysicalObject {
   body = new CANNON.Body({
     mass: 0.01,
     material: characterMaterial,
+    collisionFilterMask: CollisionFilterGroup.BORDER,
   })
   group = new THREE.Group()
 
@@ -31,6 +33,14 @@ export class Character extends PhysicalObject {
     )
 
     this.body.addEventListener(CANNON.Body.COLLIDE_EVENT_NAME, (e: any) => {
+      // this.body.collisionFilterGroup = 0
+
+      // setTimeout(() => {
+      //   this.body.collisionFilterGroup = 1
+      // }, 1000)
+
+      console.log('asdf')
+
       this._onCollide(e)
     })
   }
@@ -55,6 +65,8 @@ export class Character extends PhysicalObject {
   private _onCollide(e: any) {}
 
   update() {
+    // this.body.quaternion = new CANNON.Quaternion()
+    this.body.position.z = 0
     syncMesh(this.group, this.body)
   }
 }
