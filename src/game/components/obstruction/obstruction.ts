@@ -43,10 +43,10 @@ export class Obstruction extends PhysicalObject {
     syncMesh(this.group, this.body)
   }
 
-  private moveBackward() {
-    this.body.position.x -= 0.004
-    syncMesh(this.group, this.body)
-  }
+  // private moveBackward() {
+  //   this.body.position.x -= 0.004
+  //   syncMesh(this.group, this.body)
+  // }
 
   update() {
     this.moveForward()
